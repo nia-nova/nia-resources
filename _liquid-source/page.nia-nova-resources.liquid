@@ -1,0 +1,461 @@
+{% comment %}
+  Google Tag Manager — the same container as the rest of the site (GTM-533J9LB4).
+  Guarded: if the theme already loads this container, the snippet does nothing, so tags
+  never fire twice. Remove the guard only if the theme has no GTM at all.
+{% endcomment %}
+<script>
+(function(w,d,s,l,i){
+  var loaded = (w.google_tag_manager && w.google_tag_manager[i]) ||
+               d.querySelector('script[src*="googletagmanager.com/gtm.js?id=' + i + '"]');
+  if (loaded) return;
+  w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+  j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+  f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-533J9LB4');
+</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-533J9LB4"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+{% comment %}
+  Nia Nova — link-in-bio / resources page.
+  Everything is scoped to .nia-links, so theme CSS cannot reach in and none of this leaks out.
+  Lives at templates/page.nia-nova-resources.liquid, assigned to the page in Shopify admin
+  (Pages > the page > Theme template). It is a template, not a section, so it carries no
+  schema block — that tag is only valid in section and block files.
+{% endcomment %}
+
+{% comment %}
+  Standalone page: hide the theme header, announcement bar and footer, and paint the page
+  background so there are no light edges around the dark page. Deliberately NOT scoped, because it has
+  to reach the theme's own sections. It only exists on this template, so no other page is affected.
+{% endcomment %}
+<style>
+  .shopify-section-group-header-group,
+  .shopify-section-group-footer-group,
+  #shopify-section-header,
+  #shopify-section-footer,
+  #shopify-section-announcement-bar,
+  [id^="shopify-section-sections--"][id*="header"],
+  [id^="shopify-section-sections--"][id*="footer"],
+  [id^="shopify-section-sections--"][id*="announcement"],
+  body > header, body > footer,
+  .header-wrapper, .footer-wrapper,
+  .site-header, .site-footer,
+  .announcement-bar, .utility-bar {
+    display: none !important;
+  }
+  html, body { background: #100E0C !important; }
+  body { padding-top: 0 !important; }
+  main, #MainContent, .main-content, [role="main"] {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  #MainContent > .shopify-section { margin: 0 !important; }
+  html[data-nl-page="light"], html[data-nl-page="light"] body { background: #FAF6EF !important; }
+</style>
+
+{% # theme-check-disable RemoteAsset %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+{% # theme-check-enable RemoteAsset %}
+
+<style>
+/* ── TOKENS: DARK (the default look) ── */
+.nia-links{
+  --paper:#100E0C; --raise:#1A1714; --sunk:#171412;
+  --ink:#F3EEE5; --muted:#ABA298; --faint:#8C8479; --rule:#2E2924;
+  --accent:#E0755F; --gold:#D9A441; --cyan:#5CBEC2;
+  --wash:rgba(224,117,95,.09); --hair:rgba(224,117,95,.45);
+  --glow-a:rgba(224,117,95,.14); --glow-b:rgba(217,164,65,.12);
+  --shadow:0 8px 28px rgba(0,0,0,.45);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --body:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --measure:560px; --gutter:clamp(18px,5vw,44px);
+}
+/* ── TOKENS: LIGHT (only when the reader switches to it) ── */
+.nia-links[data-nl-theme="light"]{
+  --paper:#FAF6EF; --raise:#FFFFFF; --sunk:#F3ECE0;
+  --ink:#151B21; --muted:#5A626B; --faint:#5F666E; --rule:#E2D9C9;
+  --accent:#A83A2C; --gold:#B0761A; --cyan:#17868C;
+  --wash:rgba(168,58,44,.06); --hair:rgba(168,58,44,.35);
+  --glow-a:rgba(168,58,44,.16); --glow-b:rgba(176,118,26,.16);
+  --shadow:0 6px 24px rgba(21,27,33,.06);
+}
+
+.nia-links *{box-sizing:border-box}
+.nia-links{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased;width:100%;max-width:100%;overflow-x:hidden;transition:background .25s ease,color .25s ease}
+.nia-links h1{margin:0;font-weight:400;text-wrap:balance;color:var(--ink)}
+.nia-links p{margin:0}
+.nia-links a{color:inherit;text-decoration:none}
+.nia-links :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.nia-links .wrap{max-width:calc(var(--measure) + var(--gutter)*2);margin:0 auto;padding-inline:var(--gutter)}
+
+/* ── HERO (compact) ── */
+.nia-links .hero{position:relative;overflow:hidden;padding-top:clamp(22px,5vw,34px);padding-bottom:clamp(16px,3.5vw,24px)}
+.nia-links #nl-field{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.55;pointer-events:none}
+.nia-links .hero .wrap{position:relative;z-index:1}
+.nia-links .hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.nia-links .name{color:var(--ink);font-family:var(--display);font-weight:300;font-variant-numeric:lining-nums;font-size:clamp(38px,10vw,54px);line-height:1;letter-spacing:-.02em}
+.nia-links .name em{font-style:italic;background:linear-gradient(115deg,var(--accent) 15%,var(--gold) 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nia-links .role{color:var(--muted);margin-top:10px;font-size:14.5px;line-height:1.5;color:var(--muted);max-width:38ch}
+.nia-links .status{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;padding:6px 12px;border:1px solid var(--rule);border-radius:100px;background:var(--raise);color:var(--muted)}
+.nia-links .dot{width:6px;height:6px;border-radius:50%;flex:none;background:var(--accent);box-shadow:0 0 0 0 var(--glow-a);animation:nl-pulse 2.8s ease-out infinite}
+@keyframes nl-pulse{70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+/* ── THEME TOGGLE ── */
+.nia-links .theme-btn{flex:none;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--rule);background:var(--raise);color:var(--muted);border-radius:100px;cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;line-height:1;white-space:nowrap;transition:color .2s,border-color .2s}
+.nia-links .theme-btn:hover{color:var(--accent);border-color:var(--hair)}
+.nia-links .theme-btn svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nia-links .theme-btn .to-dark{display:none}
+.nia-links[data-nl-theme="light"] .theme-btn .to-dark{display:inline-flex;align-items:center;gap:8px}
+.nia-links[data-nl-theme="light"] .theme-btn .to-light{display:none}
+.nia-links .theme-btn .to-light{display:inline-flex;align-items:center;gap:8px}
+
+/* ── LABEL ── */
+.nia-links .label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:14px;margin:0 0 14px}
+.nia-links .label::before{content:"";width:22px;height:2px;flex:none;background:linear-gradient(90deg,var(--accent),var(--gold))}
+.nia-links .label::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+/* ── LINK LIST ── */
+.nia-links .list{display:flex;flex-direction:column;gap:8px}
+.nia-links .card{display:flex;align-items:flex-start;gap:14px;padding:15px 16px;min-height:64px;background:var(--raise);border:1px solid var(--rule);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;transition:border-color .2s,transform .18s,box-shadow .2s,background .2s}
+.nia-links .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--gold));transform:scaleY(0);transform-origin:bottom;transition:transform .2s}
+.nia-links .card:hover::before,.nia-links .card:active::before{transform:scaleY(1)}
+.nia-links .card:hover{border-color:var(--hair);transform:translateX(3px);box-shadow:var(--shadow)}
+.nia-links .card:active{transform:translateX(1px) scale(.995)}
+.nia-links .card.lead{background:var(--wash)}
+.nia-links .ico{width:34px;height:34px;flex:none;border:1px solid var(--rule);background:var(--sunk);display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--accent)}
+.nia-links .ico svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.nia-links .body{flex:1;min-width:0;color:var(--ink)}
+.nia-links .t{font-size:15.5px;font-weight:600;line-height:1.3;color:var(--ink);display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;overflow-wrap:anywhere}
+.nia-links .d{font-size:13.5px;line-height:1.5;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.nia-links .price{font-family:var(--mono);font-variant-numeric:tabular-nums lining-nums;font-size:11px;letter-spacing:.04em;white-space:nowrap;color:#FFF;background:linear-gradient(120deg,var(--accent),var(--gold));padding:3px 8px;border-radius:3px}
+.nia-links .tag{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:3px 7px;border-radius:3px;color:#FFF;background:linear-gradient(120deg,var(--accent),var(--gold))}
+.nia-links .arrow{flex:none;align-self:center;color:var(--accent);opacity:.4;font-family:var(--mono);font-size:14px;transition:opacity .18s,transform .18s}
+.nia-links .card:hover .arrow{opacity:1;transform:translateX(3px)}
+
+/* ── EMAIL NOTE ── */
+.nia-links .note{margin-top:20px;font-size:13.5px;color:var(--faint);text-align:center;overflow-wrap:anywhere}
+.nia-links .note a{color:var(--accent);border-bottom:1px solid var(--rule);padding-bottom:2px;transition:border-color .2s}
+.nia-links .note a:hover{border-color:var(--accent)}
+
+/* ── SOCIALS ── */
+.nia-links .socials{margin-top:34px}
+.nia-links .social-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.nia-links .social{display:flex;align-items:center;gap:11px;padding:14px 15px;min-height:60px;background:var(--raise);border:1px solid var(--rule);transition:border-color .2s,transform .18s,box-shadow .2s}
+.nia-links .social:hover{border-color:var(--hair);transform:translateY(-2px);box-shadow:var(--shadow)}
+.nia-links .social svg{width:19px;height:19px;flex:none;fill:var(--accent)}
+.nia-links .social .h{font-family:var(--mono);font-size:12.5px;color:var(--ink);line-height:1.3;overflow-wrap:anywhere}
+.nia-links .social .s{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+
+/* ── FOOTER ── */
+.nia-links .foot{margin-top:44px;border-top:1px solid var(--rule);background:var(--sunk)}
+.nia-links .foot .wrap{padding-block:28px 36px;text-align:center}
+.nia-links .wordmark{font-family:var(--display);font-weight:600;font-size:clamp(14px,3.4vw,17px);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);line-height:1.45;display:inline-block}
+.nia-links .wordmark span{color:var(--cyan)}
+.nia-links .foot-copy{margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--faint);line-height:2}
+.nia-links .foot-copy a{color:var(--faint);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.nia-links .foot-copy a:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ── REVEAL ── */
+.nia-links.armed .rv{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.nia-links .rv.in{opacity:1;transform:none}
+
+/* ── MOBILE ── */
+@media (max-width:520px){
+  .nia-links .hero-top{flex-wrap:wrap;gap:10px}
+  .nia-links .hero-top > div{order:2;flex:1 1 100%}
+  .nia-links .theme-btn{order:1;margin-left:auto;height:34px;padding:0 12px;font-size:10px}
+  .nia-links .social-row{grid-template-columns:1fr}
+  .nia-links .card{padding:14px;gap:12px}
+  .nia-links .role{font-size:14px}
+  .nia-links .t{font-size:15px}
+  .nia-links .d{font-size:13px}
+  .nia-links .card:hover{transform:none;box-shadow:none}
+  .nia-links .social:hover{transform:none;box-shadow:none}
+}
+@media (max-width:360px){
+  .nia-links .ico{width:30px;height:30px}
+  .nia-links .ico svg{width:15px;height:15px}
+  .nia-links .arrow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .nia-links *{transition:none!important;animation:none!important}
+  .nia-links .rv{opacity:1;transform:none}
+}
+</style>
+
+<div class="nia-links">
+
+  <!-- ══ HERO ══ -->
+  <header class="hero">
+    <canvas id="nl-field" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-top">
+        <div>
+          <h1 class="name">Nia <em>Nova</em></h1>
+          <p class="role">Growth partner, creative and marketing specialist for travel and hospitality brands.</p>
+        </div>
+        <button class="theme-btn" id="nl-theme" type="button" aria-label="Switch between dark and light mode">
+          <span class="to-light">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.4M12 19.2v2.4M4.2 12H1.8M22.2 12h-2.4M6.5 6.5 4.8 4.8M19.2 19.2l-1.7-1.7M17.5 6.5l1.7-1.7M4.8 19.2l1.7-1.7"/></svg>
+            <span>Light mode</span>
+          </span>
+          <span class="to-dark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.4A8.5 8.5 0 0 1 9.6 4 8.5 8.5 0 1 0 20 14.4z"/></svg>
+            <span>Dark mode</span>
+          </span>
+        </button>
+      </div>
+      <div class="status"><span class="dot"></span><span>Taking on two clients for Q4 2026</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="label rv">Everything, in one place</p>
+
+    <div class="list">
+
+      <a class="card lead rv" href="https://thatbartenderproject.com/pages/media-kit">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h9l5 5v12H5z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Media Kit</span><span class="tag">start here</span></span>
+          <span class="d">Growth partner, creative and marketing specialist for travel and hospitality brands. The numbers, the case studies and the rates.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/pages/influencer-media-kit">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 8h3l1.5-2.5h8L17.5 8h3v11h-17z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Influencer Media Kit</span></span>
+          <span class="d">Audience, reach and content formats for brand collaborations, with the verified numbers behind them.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/blogs/behind-the-bar">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 4.5h9l6 6v9h-15z"/><path d="M13.5 4.5v6h6"/><path d="M7.5 14h7M7.5 16.8h4"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Blog: Behind the Bar</span></span>
+          <span class="d">Notes from the bar. Recipes, moments and observations from the two of us.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/pages/speaker-hub/">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9.2" y="3" width="5.6" height="10.5" rx="2.8"/><path d="M6 11.5a6 6 0 0 0 12 0"/><path d="M12 17.5V21M9 21h6"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Speaker Hub</span></span>
+          <span class="d">Stages, topics and past talks, and how to book me for yours.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/pages/consultation">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10H13l-4 3.5v-3.5H4z"/><path d="M8 9h8M8 12h5"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Consultation for Modern Bars</span></span>
+          <span class="d">Scaling, growth and marketing, plus menu development and brand building.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/pages/about-us">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.2 2.9-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9.5" r="2.6"/><path d="M16 14.2c2.3-.2 4 1.6 4.5 4.8"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Nia &amp; Oleg — That Bartender Project</span></span>
+          <span class="d">Who we are, what we build and how the project started.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/products/cocktail-architect">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10 5.6h4"/><path d="M9.5 18.6h5"/><path d="M9.5 9h5M9.5 12.2h5"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Cocktail Architect</span><span class="price">From &euro;12</span></span>
+          <span class="d">Your sandbox for cocktail and menu development. Alcoholic and non-alcoholic. Stop wasting product while you build the drink.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card rv" href="https://thatbartenderproject.com/products/guide-to-the-classics">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5h6a2.5 2.5 0 0 1 2 2 2.5 2.5 0 0 1 2-2h6v13h-6a2.5 2.5 0 0 0-2 2 2.5 2.5 0 0 0-2-2H4z"/><path d="M12 6.5v13"/></svg></span>
+        <span class="body">
+          <span class="t"><span>Guide to the Classics</span><span class="price">&euro;10</span></span>
+          <span class="d">8 templates, 64 classic cocktails. Learn how cocktails actually work instead of memorising hundreds of recipes.</span>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+    </div>
+
+    <p class="note rv">Not sure where to start? — <a href="mailto:nia@thatbartenderproject.com">nia@thatbartenderproject.com</a></p>
+
+    <!-- ── SOCIALS ── -->
+    <div class="socials">
+      <p class="label rv">Find me here</p>
+      <div class="social-row rv">
+        <a class="social" href="https://www.instagram.com/nia.wanderer/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span><span class="h">@nia.wanderer</span><span class="s">Travel &amp; my work</span></span>
+        </a>
+        <a class="social" href="https://www.instagram.com/thatbartenderproject/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span><span class="h">@thatbartenderproject</span><span class="s">The company</span></span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <a class="wordmark" href="https://thatbartenderproject.com/">That <span>Bartender</span> Project</a>
+      <p class="foot-copy">
+        &copy; {{ 'now' | date: '%Y' }} That Bartender Project &nbsp;&middot;&nbsp;
+        <a href="https://thatbartenderproject.com/">thatbartenderproject.com</a> &nbsp;&middot;&nbsp;
+        <a href="mailto:nia@thatbartenderproject.com">nia@thatbartenderproject.com</a>
+      </p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var root=document.querySelector(".nia-links");
+  if(!root) return;
+  var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- light / dark ---- */
+  var btn=document.getElementById("nl-theme");
+  function apply(mode){
+    if(mode==="light"){
+      root.setAttribute("data-nl-theme","light");
+      document.documentElement.setAttribute("data-nl-page","light");
+    } else {
+      root.removeAttribute("data-nl-theme");
+      document.documentElement.removeAttribute("data-nl-page");
+    }
+  }
+  var saved=null;
+  try{saved=localStorage.getItem("nl_theme");}catch(e){}
+  if(saved) apply(saved);
+  function current(){
+    return root.getAttribute("data-nl-theme")==="light" ? "light" : "dark";
+  }
+  if(btn) btn.addEventListener("click",function(){
+    var next=current()==="dark" ? "light" : "dark";
+    apply(next);
+    try{localStorage.setItem("nl_theme",next);}catch(e){}
+  });
+
+  /* ---- reveal on scroll ---- */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    });
+  },{threshold:.14,rootMargin:"0px 0px -6% 0px"});
+  root.classList.add("armed");
+  root.querySelectorAll(".rv").forEach(function(el){io.observe(el);});
+  function sweep(){
+    root.querySelectorAll(".rv:not(.in)").forEach(function(el){
+      if(el.getBoundingClientRect().top < innerHeight*0.96){el.classList.add("in");io.unobserve(el);}
+    });
+  }
+  addEventListener("scroll",sweep,{passive:true});
+  addEventListener("resize",sweep,{passive:true});
+  sweep();
+
+  /* ---- hero field ---- */
+  var cv=document.getElementById("nl-field");
+  if(!cv||!cv.getContext) return;
+  var cx=cv.getContext("2d"),W,H,raf;
+  function css(v){return getComputedStyle(root).getPropertyValue(v).trim()||"transparent";}
+  function size(){
+    var r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+    W=cv.width=Math.max(1,r.width*d); H=cv.height=Math.max(1,r.height*d);
+  }
+  var blobs=[
+    {x:.20,y:.34,r:.52,vx:.000045,vy:.000031,c:"--glow-a"},
+    {x:.76,y:.44,r:.44,vx:-.000037,vy:.000047,c:"--glow-b"},
+    {x:.50,y:.78,r:.38,vx:.000029,vy:-.000041,c:"--glow-a"}
+  ];
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    blobs.forEach(function(b,i){
+      var x=(b.x+Math.sin(t*b.vx+i)*.10)*W, y=(b.y+Math.cos(t*b.vy+i)*.09)*H, r=b.r*Math.max(W,H)*.62;
+      var g=cx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,css(b.c)); g.addColorStop(1,"transparent");
+      cx.fillStyle=g; cx.beginPath(); cx.arc(x,y,r,0,6.284); cx.fill();
+    });
+    raf=requestAnimationFrame(draw);
+  }
+  size(); addEventListener("resize",size);
+  if(reduce){draw(0);cancelAnimationFrame(raf);} else {raf=requestAnimationFrame(draw);}
+})();
+</script>
+
+{% comment %}
+  Structured data. This is what answer engines and AI assistants read to work out who Nia Nova is,
+  what she does and what lives on this page. Keep it in sync with the visible links above.
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "name": "Nia Nova — Resources",
+  "url": "https://thatbartenderproject.com/pages/nia-nova-resources",
+  "inLanguage": "en",
+  "description": "Nia Nova is a growth partner, creative and marketing specialist for travel and hospitality brands. Her media kit, influencer media kit, speaker hub, bar consultation, blog and cocktail tools, all in one place.",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Nia Nova",
+    "jobTitle": "Growth partner, creative and marketing specialist for travel and hospitality brands",
+    "description": "Marketing, brand and creative for travel and hospitality brands: paid acquisition, direct-booking growth, content systems and on-location photography and film.",
+    "url": "https://thatbartenderproject.com/pages/nia-nova-resources",
+    "knowsAbout": [
+      "Hospitality marketing",
+      "Hotel direct bookings",
+      "Travel brand growth",
+      "Paid social advertising",
+      "Content strategy",
+      "Bar and cocktail menu development",
+      "Brand building"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "That Bartender Project",
+      "url": "https://thatbartenderproject.com/"
+    },
+    "sameAs": [
+      "https://www.instagram.com/nia.wanderer/",
+      "https://www.instagram.com/thatbartenderproject/",
+      "https://www.linkedin.com/in/nia-nova-831642228/",
+      "https://www.behance.net/akykits"
+    ]
+  },
+  "mainEntityOfPage": {
+    "@type": "ItemList",
+    "name": "Nia Nova resources",
+    "itemListOrder": "https://schema.org/ItemListOrderAscending",
+    "numberOfItems": 8,
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Media Kit", "description": "Growth partner, creative and marketing specialist for travel and hospitality brands: numbers, case studies and rates.", "url": "https://thatbartenderproject.com/pages/media-kit" },
+      { "@type": "ListItem", "position": 2, "name": "Influencer Media Kit", "description": "Audience, reach and content formats for brand collaborations.", "url": "https://thatbartenderproject.com/pages/influencer-media-kit" },
+      { "@type": "ListItem", "position": 3, "name": "Blog: Behind the Bar", "description": "Notes from the bar: recipes, moments and observations.", "url": "https://thatbartenderproject.com/blogs/behind-the-bar" },
+      { "@type": "ListItem", "position": 4, "name": "Speaker Hub", "description": "Stages, topics and past talks, and how to book a speaking slot.", "url": "https://thatbartenderproject.com/pages/speaker-hub" },
+      { "@type": "ListItem", "position": 5, "name": "Consultation for Modern Bars", "description": "Scaling, growth and marketing, plus menu development and brand building.", "url": "https://thatbartenderproject.com/pages/consultation" },
+      { "@type": "ListItem", "position": 6, "name": "Nia & Oleg — That Bartender Project", "description": "Who we are, what we build and how the project started.", "url": "https://thatbartenderproject.com/pages/about-us" },
+      { "@type": "ListItem", "position": 7, "name": "Cocktail Architect", "description": "A sandbox for cocktail and menu development, alcoholic and non-alcoholic.", "url": "https://thatbartenderproject.com/products/cocktail-architect" },
+      { "@type": "ListItem", "position": 8, "name": "Guide to the Classics", "description": "8 templates and 64 classic cocktails: how cocktails work, not recipes to memorise.", "url": "https://thatbartenderproject.com/products/guide-to-the-classics" }
+    ]
+  }
+}
+</script>
